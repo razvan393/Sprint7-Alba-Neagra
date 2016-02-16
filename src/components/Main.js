@@ -2,21 +2,39 @@ require('normalize.css');
 require('styles/App.css');
 
 import React from 'react';
+import Cup from './cup';
 
-let yeomanImage = require('../images/yeoman.png');
-
-class AppComponent extends React.Component {
-  render() {
+var AppComponent = React.createClass({
+  getDefaultProps: function () {
+    return {
+      cupsStates : Math.floor(Math.random()*3 +1),
+      chosenCup :0
+    }
+  },
+  cup: function (winner, number) {
     return (
-      <div className="index">
-        <img src={yeomanImage} alt="Yeoman Generator" />
-        <div className="notice">Please edit <code>src/components/Main.js</code> to get started!</div>
+    <Cup isWinner={number === winner} idx={number}/>
+    )
+  },
+  createCups: function (obj) {
+    return (
+      <div className="cups-holder">
+        {this.cup(obj, 1)}
+        {this.cup(obj, 2)}
+        {this.cup(obj, 3)}
+      </div>
+    )
+  },
+
+  render: function() {
+    var cupsStates = this.props.cupsStates;
+    return (
+      <div className="app">
+        {this.createCups(cupsStates)}
+        {this.props.chosenCup}
       </div>
     );
   }
-}
-
-AppComponent.defaultProps = {
-};
+});
 
 export default AppComponent;

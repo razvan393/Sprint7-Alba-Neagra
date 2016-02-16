@@ -19,3 +19,12 @@ body {
   border-width: 1px 0;
   background: #666;
 }
+
+.square {
+  width: 100px;
+  height: 100px;
+  background: white;
+  display: inline-block;
+  margin: 2%;
+  color: #2e2e2e;
+}

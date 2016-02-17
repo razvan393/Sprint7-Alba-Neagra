@@ -4,8 +4,12 @@ require('styles/App.css');
 import React from 'react';
 
 const Cup = React.createClass({
+  setCupNumber: function () {
+    this.props.onClick(this.props.idx);
+  },
+
   render: function () {
-    return (<div onClick={() => {this.setState({chosenCup: this.props.idx});} } className="square"></div>);
+    return (<div onClick={this.setCupNumber} className="square"></div>);
   }
 });
 export default Cup;

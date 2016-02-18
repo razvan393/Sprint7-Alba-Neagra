@@ -5,15 +5,12 @@ import React from 'react';
 import Cup from './cup';
 
 var AppComponent = React.createClass({
-  getDefaultProps: function () {
-    return {
-      cupsStates : Math.floor(Math.random()*3 +1)
-    }
-  },
-
   getInitialState: function () {
     return {
-      chosenCup :0
+      cupsStates : Math.floor(Math.random()*3 +1),
+      chosenCup : 0,
+      wins: 0,
+      loses: 0
     }
   },
 
@@ -34,14 +31,28 @@ var AppComponent = React.createClass({
   },
   onClickCup: function (cupNumber) {
     this.setState({chosenCup: cupNumber});
+    if(cupNumber === this.state.cupsStates) {
+      alert('Win!');
+      this.setState({wins: this.state.wins + 1});
+    } else {
+      alert('Lose');
+      this.setState({loses: this.state.loses + 1});
+    }
+    this.setState({cupsStates : Math.floor(Math.random()*3 +1)});
   },
 
   render: function() {
-    var cupsStates = this.props.cupsStates;
+    var cupsStates = this.state.cupsStates;
+    var wins = this.state.wins;
+    var loses = this.state.loses;
+    console.log(wins, loses);
     return (
       <div className="app">
+        <span>Wins</span>
+        <input type="text" value={wins} />
+        <span>Loses</span>
+        <input type="text" value={loses} />
         {this.createCups(cupsStates)}
-        {this.state.chosenCup}
       </div>
     );
   }

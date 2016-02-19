@@ -11,39 +11,40 @@ var AppComponent = React.createClass({
       chosenCup : 0,
       wins: 0,
       loses: 0,
-      state: null
+      state: null,
+      isRevealed: false
     }
   },
 
-  cup: function (winner, number) {
+  cup: function (winner, number, isRevealed) {
     return (
-    <Cup isWinner={number === winner} idx={number} onClick={this.onClickCup}/>
+    <Cup isWinner={number === winner} isRevealed={number == isRevealed} idx={number} onClick={this.onClickCup}/>
     )
   },
 
   createCups: function (obj) {
     return (
       <div className="cups-holder">
-        {this.cup(obj, 1)}
-        {this.cup(obj, 2)}
-        {this.cup(obj, 3)}
+        {this.cup(obj, 1, this.state.isRevealed)}
+        {this.cup(obj, 2, this.state.isRevealed)}
+        {this.cup(obj, 3, this.state.isRevealed)}
       </div>
     )
   },
+
   onClickCup: function (cupNumber) {
-    this.setState({chosenCup: cupNumber});
+    this.setState({chosenCup: cupNumber, isRevealed: cupNumber});
     if(cupNumber === this.state.cupsStates) {
-      this.setState({state: 'Win!'});
-      this.setState({wins: this.state.wins + 1});
+      this.setState({state: 'Win!', wins: this.state.wins + 1});
     } else {
-      this.setState({state: 'Lose'});
-      this.setState({loses: this.state.loses + 1});
+      this.setState({state: 'Lose', loses: this.state.loses + 1});
     }
-    this.setState({cupsStates : Math.floor(Math.random()*3 +1)});
+
   },
 
   resetState: function () {
-    this.setState({wins: 0, loses: 0, state: null});
+    this.setState({state: null, isRevealed: false});
+    this.setState({cupsStates : Math.floor(Math.random()*3 +1)});
   },
 
   render: function() {
@@ -57,9 +58,9 @@ var AppComponent = React.createClass({
         <span> {wins} </span>
         <span>Loses</span>
         <span> {loses} </span>
+        <button onClick={this.resetState}>Restart</button>
         {this.createCups(cupsStates)}
         <div>{state}</div>
-        <button onClick={this.resetState}>Restart</button>
       </div>
     );
   }
